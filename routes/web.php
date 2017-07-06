@@ -13,17 +13,17 @@
 
 //文章列表页
 Route::get('/posts', '\App\Http\Controllers\PostController@index');
-//文章详情页
-Route::get('/posts/{post}', '\App\Http\Controllers\PostController@show');
 //创建文章
 Route::get('/posts/create', '\App\Http\Controllers\PostController@create');
 Route::post('/posts', '\App\Http\Controllers\PostController@store');
+
 //编辑文章
-Route::get('/posts/{post}/edit}', '\App\Http\Controllers\PostController@edit');
+Route::get('/posts/{post}/edit', '\App\Http\Controllers\PostController@edit');
 Route::put('/posts/{post}', '\App\Http\Controllers\PostController@update');
 //删除文章
 Route::get('/posts/delete', '\App\Http\Controllers\PostController@delete');
 
-
+//文章详情页
+Route::get('/posts/{post}', '\App\Http\Controllers\PostController@show');
 
 //Route::get('/', '控制器@方法'});
