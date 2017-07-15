@@ -11,6 +11,26 @@
 |
 */
 
+//用户模块
+//注册页面
+Route::get('/register', '\App\Http\Controllers\RegisterController@index');
+//注册行为
+Route::post('/register', '\App\Http\Controllers\RegisterController@register');
+//登录页面
+Route::get('/login', '\App\Http\Controllers\LoginController@index');
+//登录行为
+Route::post('/login', '\App\Http\Controllers\LoginController@login');
+//登出行为
+Route::get('/logout', '\App\Http\Controllers\LoginController@logout');
+//个人设置页面
+Route::get('/user/me/setting', '\App\Http\Controllers\UserController@setting');
+//个人设置操作
+Route::post('/user/me/setting', '\App\Http\Controllers\UserController@settingStore');
+
+
+
+
+
 //文章列表页
 Route::get('/posts', '\App\Http\Controllers\PostController@index');
 //创建文章
@@ -25,5 +45,11 @@ Route::get('/posts/{post}/delete', '\App\Http\Controllers\PostController@delete'
 Route::get('/posts/{post}', '\App\Http\Controllers\PostController@show');
 //图片上传
 Route::post('/posts/image/upload','\App\Http\Controllers\PostController@imageUpload');
+//提交评论
+Route::post('/posts/{post}/comment','\App\Http\Controllers\PostController@comment');
+//赞
+Route::get('/posts/{post}/zan','\App\Http\Controllers\PostController@zan');
+//取消赞
+Route::get('/posts/{post}/unzan','\App\Http\Controllers\PostController@unzan');
 
 //Route::get('/', '控制器@方法'});
