@@ -3,10 +3,29 @@
 namespace App;
 
 use App\Model;
+use Laravel\Scout\Searchable;
+use Illuminate\Database\Eloquent\Builder;
 
 //表 => posts
 class Post extends Model
 {
+	use Searchable;
+
+	//定义索引里面的type
+	public function searchableAs()
+	{
+		return "post";
+	}
+
+	//定义有哪些字段需要搜索
+	public function toSearchableArray()
+	{
+		return [
+			'title' => $this->title,
+			'content' => $this->content,
+		];
+	}
+
 	//关联用户
 	public function user()
 	{
@@ -29,5 +48,26 @@ class Post extends Model
     public function zans()
     {
     	return $this->hasMany('App\Zan')->orderBy('created_at','desc');
+    }
+
+    //属于某个作者的文章
+    public function scopeAuthorBy(Builder $query, $user_id)
+    {
+        return $query->where('user_id', $user_id);
+    }
+
+    //文章属于哪些专题
+    public function postTopics()
+    {
+        return $this->hasMany(\App\PostTopic::class, 'post_id', 'id');
+    }
+
+
+    //不属于某个专题的文章
+    public function scopeTopicNotBy(Builder $query, $topic_id)
+    {
+        return $query->doesntHave('postTopics', 'and', function($q) use($topic_id) {
+        	$q->where('topic_id', $topic_id);
+        });
     }
 }

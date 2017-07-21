@@ -127,4 +127,39 @@ class PostController extends Controller
         $post->zan(\Auth::id())->delete();
         return back();
     }
+
+    //搜索结果页
+    public function search()
+    {
+        //验证
+        $this->validate(request(),[
+            'query' => 'required',
+        ]);
+
+        //逻辑
+        $query = request('query');
+        $posts = \App\Post::search($query)->paginate(2);
+
+        //渲染
+        return view("post/search",compact('posts','query'));
+    }
+
+    //属于某个作者的文章
+    public function scopeAuthorBy(Builder $query, $user_id)
+    {
+        return $query->where('user_id', $user_id);
+    }
+
+
+    public function postTopics()
+    {
+        return $this->hasMany(\App\PostTopic::class, 'post_id', 'id');
+    }
+
+
+    //不属于某个专题的文章
+    public function scopeTopicNotBy(Buider $query, $topic_id)
+    {
+        return $query->doesntHave();
+    }
 }
