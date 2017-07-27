@@ -144,22 +144,5 @@ class PostController extends Controller
         return view("post/search",compact('posts','query'));
     }
 
-    //属于某个作者的文章
-    public function scopeAuthorBy(Builder $query, $user_id)
-    {
-        return $query->where('user_id', $user_id);
-    }
-
-
-    public function postTopics()
-    {
-        return $this->hasMany(\App\PostTopic::class, 'post_id', 'id');
-    }
-
-
-    //不属于某个专题的文章
-    public function scopeTopicNotBy(Buider $query, $topic_id)
-    {
-        return $query->doesntHave();
-    }
+    
 }
