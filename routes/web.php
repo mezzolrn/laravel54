@@ -12,7 +12,7 @@
 */
 
 //用户模块
-Route::get('/', function(){return redirect("/posts");});
+Route::get('/', '\App\Http\Controllers\LoginController@welcome');
 //注册页面
 Route::get('/register', '\App\Http\Controllers\RegisterController@index');
 //注册行为
@@ -68,6 +68,10 @@ Route::group(['middleware' => 'auth:web'], function(){
 	Route::get('/topic/{topic}','\App\Http\Controllers\TopicController@show');
 	//投稿
 	Route::post('/topic/{topic}/submit','\App\Http\Controllers\TopicController@submit');
+
+	//通知
+	Route::get('/notices','\App\Http\Controllers\NoticeController@index');
+
 
 });
 
